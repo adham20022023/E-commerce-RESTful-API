@@ -22,7 +22,6 @@ app.all("*", (req, res, next) => {
   //   `can't Find this route${req.originalUrl} on this server`
   // );
   // next(error.message);
-  console.log("sfsafasfasdfasdfafdasdfsdfsdfs");
   next(
     new AppError(`Can't find this route ${req.originalUrl} on this server`, 404)
   );
@@ -31,6 +30,14 @@ app.all("*", (req, res, next) => {
 app.use(globalError);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}...`);
+});
+//! Handle Rejections outside Express
+process.on("unhandledRejection", (err) => {
+  console.log(`unhandledRejection Errors:${err.name} | ${err.message}`);
+  server.close(() => {
+    console.log(`ShutingDown....`);
+    process.exit(1);
+  });
 });

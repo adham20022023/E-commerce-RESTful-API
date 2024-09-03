@@ -27,7 +27,7 @@ const getCategory = asyncHandler(async (req, res, next) => {
 
   if (!category) {
     // return res.status(404).json({ msg: `No category found with id ${id}` });
-    return next(new appError(`No Category Found with id ${id}`), 404);
+    return next(new appError(`No Category Found with id ${id}`, 404));
   }
 
   res.status(200).json({ data: category });
@@ -61,7 +61,7 @@ const updateCategory = asyncHandler(async (req, res, next) => {
 
   if (!category) {
     // return res.status(404).json({ message: "Category not found" });
-    return next(new appError(`No Category found with id ${id}`));
+    return next(new appError(`No Category found with id ${id}`, 404));
   }
 
   res.status(200).json({ data: category });
@@ -76,7 +76,7 @@ const deleteCategory = asyncHandler(async (req, res, next) => {
 
   if (!category) {
     // return res.status(404).json({ Message: "Category Not Found" });
-    return next(new appError(`No Category found with id ${id}`));
+    return next(new appError(`No Category found with id ${id}`, 404));
   }
 
   res.status(204).send();
