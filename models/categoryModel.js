@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 const categorySchema = new mongoose.Schema(
   {
     name: {
@@ -7,6 +8,10 @@ const categorySchema = new mongoose.Schema(
       unique: [true, "Category name must be unique"],
       minLength: [3, "too short category name"],
       maxLength: [32, "Too long category name"],
+    },
+    slug: {
+      type: String,
+      lowercase: true,
     },
   },
   {
