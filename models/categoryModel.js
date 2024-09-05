@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
+
 const categorySchema = new mongoose.Schema(
   {
     name: {
@@ -13,6 +14,7 @@ const categorySchema = new mongoose.Schema(
       type: String,
       lowercase: true,
     },
+    image: String,
   },
   {
     timestamps: true,

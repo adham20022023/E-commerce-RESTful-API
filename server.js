@@ -1,10 +1,13 @@
 const express = require("express");
 const morgan = require("morgan");
-const dbConnection = require("./config/database");
-const categoryRoute = require("./routes/categoryRoute.js");
-const globalError = require("./Middlewares/errorMiddleware.js");
 const dotenv = require("dotenv");
-const AppError = require("./utils/Api-error.js");
+const dbConnection = require("./config/database");
+const categoryRoute = require("./routes/categoryRoute");
+const subcategoryRoute = require("./routes/subCategoryRoute");
+const BrandRoutes = require("./routes/brandRoute");
+const globalError = require("./Middlewares/errorMiddleware");
+const AppError = require("./utils/Api-error");
+
 dotenv.config({ path: "./config.env" });
 //! Connect To DB
 dbConnection();
@@ -17,6 +20,8 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json()); // parse incoming request =>request
 //! Route Mount
 app.use("/api/v1/categories", categoryRoute);
+app.use("/api/v1/subcategories", subcategoryRoute);
+app.use("/api/v1/Brands", BrandRoutes);
 app.all("*", (req, res, next) => {
   // const error = new Error(
   //   `can't Find this route${req.originalUrl} on this server`
