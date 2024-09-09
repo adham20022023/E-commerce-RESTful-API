@@ -18,7 +18,7 @@ exports.getSubcategories = asyncHandler(async (req, res) => {
   const limit = +req.query.limit || 10;
   const skip = (page - 1) * limit;
 
-  const SubCategories = await SubCategory.find()
+  const SubCategories = await SubCategory.find(req.filterObj)
     .select("-__v")
     .skip(skip)
     .limit(limit)

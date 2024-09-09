@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
@@ -6,15 +7,32 @@ const AppError = require("../utils/Api-error");
 // @Route Get /api/v1/products
 // @Access public
 const getProducts = asyncHandler(async (req, res) => {
+  // console.log(req.query);
+
+  // filtering
+  const queryStringobj = { ...req.query };
+  const exitFields = ["page", "sort", "limit", "fields", "keyword"];
+  exitFields.forEach((field) => delete queryStringobj[field]);
+  // Apply filtering using [gte,gt,lte,lt]
+  let queryString = JSON.stringify(queryStringobj);
+  queryString = queryString.replace(
+    /\b(gte|gt|lte|lt)\b/g,
+    (match) => `$${match}`
+  );
+  queryString = JSON.parse(queryString);
+
+  // Pagination
   const page = +req.query.page || 1;
   const limit = +req.query.limit || 10;
   const skip = (page - 1) * limit;
-
-  const products = await Product.find()
+  // Build Query
+  const mongooseQuery = Product.find(queryString)
     .select("-__v")
     .skip(skip)
     .limit(limit)
     .populate({ path: "category", select: "name -_id" });
+  //execute query
+  const products = await mongooseQuery;
 
   res.status(200).json({ result: products.length, page, data: products });
 });
