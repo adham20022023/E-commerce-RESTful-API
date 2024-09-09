@@ -3,13 +3,13 @@ const asyncHandler = require("express-async-handler");
 const AppError = require("../utils/Api-error");
 const SubCategory = require("../models/subCategoryModel");
 
-exports.createfilterObj = (req, res, next) => {
+exports.createFilterObj = (req, res, next) => {
   let filterObject = {};
   if (req.params.categoryId) filterObject = { category: req.params.categoryId };
   req.filterObj = filterObject;
   next();
 };
-// GET /api/v1/categories/:cateogryId/subcategories
+// GET /api/v1/categories/:categoryId/subcategories
 // @Desc Get list of SubCategories
 // @Route Get /api/v1/subcategories
 // @Access public
