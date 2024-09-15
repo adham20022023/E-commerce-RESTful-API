@@ -1,4 +1,5 @@
 const express = require("express");
+require("colors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const dbConnection = require("./config/database");
@@ -16,6 +17,8 @@ dbConnection();
 const app = express();
 //! Middlewares
 if (process.env.NODE_ENV === "development") {
+  // colors console .log
+  console.log("Development Mode".blue.bold);
   app.use(morgan("dev"));
 }
 app.use(express.json()); // parse incoming request =>request
