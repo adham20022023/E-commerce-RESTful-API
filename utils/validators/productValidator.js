@@ -128,6 +128,12 @@ exports.updateProductValidator = [
   check("id").isMongoId().withMessage("Invalid ID formate"),
   body("title")
     .optional()
+    .custom((value, { req }) => {
+      req.body.slug = slugify(value);
+      return true;
+    }),
+  body("title")
+    .optional()
     .custom((val, { req }) => {
       req.body.slug = slugify(val);
       return true;
