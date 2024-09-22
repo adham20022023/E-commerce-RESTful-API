@@ -16,6 +16,7 @@ exports.deleteOne = (Model) =>
   });
 exports.UpdateOne = (Model) =>
   asyncHandler(async (req, res, next) => {
+    console.log("Update request body:", req.body);
     const document = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
@@ -23,7 +24,7 @@ exports.UpdateOne = (Model) =>
     if (!document) {
       // return res.status(404).json({ message: "Category not found" });
       return next(
-        new AppError(`No Category found with id ${req.params.id}`, 404)
+        new AppError(`No document found with id ${req.params.id}`, 404)
       );
     }
 

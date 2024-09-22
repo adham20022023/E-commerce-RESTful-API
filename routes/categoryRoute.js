@@ -1,4 +1,5 @@
 const express = require("express");
+// eslint-disable-next-line import/no-extraneous-dependencies
 
 const {
   getCategoryValidator,
@@ -12,7 +13,10 @@ const {
   createCategory,
   updateCategory,
   deleteCategory,
+  uploadCategoryImage,
+  resizeImage,
 } = require("../services/categoryService");
+
 const subcategories = require("./subCategoryRoute");
 
 const router = express.Router();
@@ -21,10 +25,20 @@ router.use("/:categoryId/subcategories", subcategories);
 router
   .route("/")
   .get(getCategories)
-  .post(createCategoryValidator, createCategory);
+  .post(
+    uploadCategoryImage,
+    resizeImage,
+    createCategoryValidator,
+    createCategory
+  );
 router
   .route("/:id")
   .get(getCategoryValidator, getCategory)
-  .put(updateCategoryValidator, updateCategory)
+  .put(
+    uploadCategoryImage,
+    resizeImage,
+    updateCategoryValidator,
+    updateCategory
+  )
   .delete(deleteCategoryValidator, deleteCategory);
 module.exports = router;

@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 app.use(express.json()); // parse incoming request =>request
+app.use(express.static(`${__dirname}/uploads`));
 //! Route Mount
 app.use("/api/v1/categories", categoryRoute);
 app.use("/api/v1/subcategories", subcategoryRoute);
